@@ -1,7 +1,8 @@
+import 'package:cabbooking/features/admin/admin_dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-
 import '../cutomer/customer_dashboard.dart';
+import '../driver/driver_home_screen.dart';
 
 class LoginRegisterScreen extends StatefulWidget {
   const LoginRegisterScreen({super.key});
@@ -12,6 +13,7 @@ class LoginRegisterScreen extends StatefulWidget {
 
 class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
   bool isCustomer = true;
+  bool isAdmin = true;
   bool isLogin = true;
 
   @override
@@ -127,12 +129,27 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
 
                         GestureDetector(
                           onTap: () {
+                            isCustomer
+                                ? Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CustomerDashboard(),
+                                  ),
+                                )
+                                : isAdmin ?
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => CustomerDashboard(),
+                                builder: (context) => AdminDashboardScreen(),
                               ),
-                            );
+                            ) :
+                            Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DriverHomeScreen(),
+                                  ),
+                                );
                           },
                           child: Container(
                             width: double.infinity,
@@ -188,8 +205,6 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                         ),
 
                         SizedBox(height: 20),
-
-                        // ❓ Switch role (bottom question)
                         GestureDetector(
                           onTap: () => setState(() => isCustomer = !isCustomer),
                           child: Text(
@@ -201,6 +216,21 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                                   isCustomer
                                       ? Colors.orange.shade700
                                       : Colors.blue.shade700,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => setState(() => isAdmin = !isAdmin),
+                          child: Text(
+                            isAdmin
+                                ? "Are you a admin"
+                                : "Back to customer",
+                            style: TextStyle(
+                              color:
+                              isAdmin
+                                  ? Colors.orange.shade700
+                                  : Colors.blue.shade700,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -235,7 +265,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
   }
 }
 
-// 🌊 Custom wave clipper
+//Custom wave clipper
 class WaveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
